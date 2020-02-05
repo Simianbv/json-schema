@@ -1,0 +1,22 @@
+<?php
+
+namespace {{Namespace}};
+
+use Simianbv\JsonSchema\Contracts\RepositoryInterface;
+use Simianbv\JsonSchema\Repository;
+
+/**
+ * @class   {{Class}}
+ * @package {{Namespace}}
+ */
+class {{Class}} extends Repository
+{
+
+    /**
+     * @return string
+     */
+    public function model()
+    {
+        return {{Model}}::class;
+    }
+}

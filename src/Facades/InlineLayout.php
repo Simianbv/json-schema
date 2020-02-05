@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @copyright (c) Simian B.V. 2019
+ * @version       1.0.0
+ */
+
+namespace Simianbv\JsonSchema\Facades;
+
+use Illuminate\Support\Facades\Facade;
+
+/**
+ * @method static make(array $fields = [], string $name = null)
+ *
+ * @see \Simianbv\JsonSchema\Ui\InlineLayout
+ */
+class InlineLayout extends Facade
+{
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return new \Simianbv\JsonSchema\Ui\InlineLayout;
+    }
+}

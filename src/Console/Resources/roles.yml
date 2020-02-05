@@ -1,0 +1,144 @@
+Role:
+  namespace: Acl
+  timestamps: true
+  softDelete: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    name:
+      type: string
+      nullable: false
+      length: 50
+      unique: true
+  relations:
+    Group:
+      namespace: Acl
+      type: belongsToMany
+      foreign: id
+      local: id
+Group:
+  namespace: Acl
+  timestamps: true
+  softDelete: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    name:
+      type: string
+      nullable: false
+      unique: true
+    slug:
+      type: string
+      nullable: false
+      unique: true
+    token:
+      type: string
+      nullable: false
+      unique: true
+    category:
+      type: string
+    description:
+      type: string
+  relations:
+    Permission:
+      namespace: Acl
+      type: hasMany
+      local: id
+      foreign: group_id
+    Role:
+      namespace: Acl
+      type: belongsToMany
+      foreign: id
+      local: id
+Permission:
+  namespace: Acl
+  timestamps: true
+  softDelete: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    group_id:
+      type: bigInteger
+      unsigned: true
+      nullable: false
+    name:
+      type: string
+      nullable: false
+      unique: true
+    slug:
+      type: string
+      nullable: false
+      unique: true
+    token:
+      type: string
+      nullable: false
+      unique: true
+    category:
+      type: string
+    description:
+      type: string
+  relations:
+    Group:
+      namespace: Acl
+      type: belongsTo
+      local: group_id
+      foreign: id
+# pivotal tables
+GroupRole:
+  namespace: Acl
+  pivot_only: true
+  timestamps: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    role_id:
+      type: bigInteger
+      nullable: false
+    group_id:
+      type: bigInteger
+      nullable: false
+  relations:
+    Role:
+      namespace: Acl
+      type: hasOne
+      local: role_id
+      foreign: id
+    Group:
+      namespace: Acl
+      type: hasOne
+      local: group_id
+      foreign: id
+RoleUser:
+  namespace: Acl
+  pivot_only: true
+  timestamps: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    role_id:
+      type: bigInteger
+      nullable: false
+    user_id:
+      type: bigInteger
+      nullable: false
+  relations:
+    Role:
+      namespace: Acl
+      type: hasOne
+      local: role_id
+      foreign: id
+    User:
+      namespace:
+      type: hasOne
+      local: user_id
+      foreign: id

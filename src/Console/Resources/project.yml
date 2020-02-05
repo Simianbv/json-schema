@@ -1,0 +1,930 @@
+Role:
+  namespace: Management
+  timestamps: true
+  softDeletes: true
+  single: Rol
+  plural: rollen
+  category: Management
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 30
+      nullable: false
+      unique: true
+    slug:
+      type: string
+      length: 30
+      nullable: false
+      unique: true
+    color:
+      type: string
+      length: 12
+      nullable: false
+      unique: false
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+Group:
+  namespace: Management
+  timestamps: true
+  softDeletes: true
+  single: Rechtengroep
+  plural: Rechtengroepen
+  category: Management
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: ture
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 30
+      required: true
+      nullable: false
+    slug:
+      type: string
+      length: 30
+      required: true
+      nullable: false
+    category:
+      type: string
+      length: 20
+      required: true
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+Permission:
+  namespace: Management
+  timestamps: true
+  softDeletes: true
+  single: Recht
+  plural: rechten
+  category: Management
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    group_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 50
+      required: true
+    category:
+      type: string
+      length: 30
+      required: true
+    slug:
+      type: string
+      length: 30
+      required: true
+    token:
+      type: string
+      length: 120
+      required: true
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Group:
+      namespace: Management
+      model: Group
+      function: group
+      type: belongsTo
+      local: group_id
+      foreign: id
+Department:
+  namespace: Management
+  timestamps: true
+  softDelete: true
+  single: Afdeling
+  plural: Afdelingen
+  category: Management
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    manager_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 30
+      nullable: false
+      unique: true
+    color:
+      type: string
+      length: 12
+      nullable: false
+      unique: false
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Manager:
+      namespace: Auth
+      model: User
+      function: manager
+      type: belongsTo
+      local: creator_id
+      foreign: id
+ProjectStatus:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Projectstatus
+  plural: Projectstatussen
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 30
+      nullable: false
+      unique: true
+    slug:
+      type: string
+      length: 40
+      nullable: false
+      unique: true
+    status_code:
+      type: integer
+      nullable: false
+      unique: true
+    color:
+      type: string
+      length: 12
+      nullable: false
+      unique: false
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+Project:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Project
+  plural: Projecten
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    project_status_id:
+      type: bigInteger
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    manager_id:
+      type: bigInteger
+      unsigned: true
+    department_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      nullable: false
+      length: 50
+      unique: true
+    project_code:
+      type: string
+      nullable: false
+      length: 30
+      unique: true
+    description:
+      type: text
+    color:
+      type: string
+      nullable: false
+      length: 15
+      unique: true
+  relations:
+    ProjectStatus:
+      namespace: Scrum
+      type: belongsTo
+      local: project_status_id
+      foreign: id
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Manager:
+      namespace: Auth
+      model: User
+      function: manager
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Department:
+      namespace: Management
+      type: belongsTo
+      local: department_id
+      foreign: id
+Epic:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Epic
+  plural: Epics
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 40
+      required: true
+    epic_code:
+      type: string
+      length: 20
+      required: true
+    color:
+      type: string
+      length: 12
+      required: true
+    icon:
+      type: string
+      length: 30
+      nullable: true
+  relations:
+    Project:
+      namespace: Scrum
+      type: belongsTo
+      local: project_id
+      foreign: id
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+Sprint:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Sprint
+  plural: Sprints
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    manager_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 40
+      nullable: true
+    starts_at:
+      type: timestamp
+      required: true
+    ends_at:
+      type: timestamp
+      required: true
+  relations:
+    Project:
+      namespace: Scrum
+      type: belongsTo
+      local: project_id
+      foreign: id
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Manager:
+      namespace: Auth
+      model: User
+      function: manager
+      type: belongsTo
+      local: manager_id
+      foreign: id
+TicketStatus:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Ticketstatus
+  plural: Ticketstatussen
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+    name:
+      type: string
+      length: 30
+      nullable: false
+      unique: true
+    slug:
+      type: string
+      length: 40
+      nullable: false
+      unique: true
+    status_code:
+      type: integer
+      nullable: false
+      unique: true
+    color:
+      type: string
+      length: 12
+      nullable: false
+      unique: false
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+Ticket:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Ticket
+  plural: Tickets
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    ticket_status_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    assignee_id:
+      type: bigInteger
+      unsigned: true
+      nullable: true
+    previous_assignee_id:
+      type: bigInteger
+      unsigned: true
+      nullable: true
+    epic_id:
+      type: bigInteger
+      unsigned: true
+      nullable: true
+    ticket_code:
+      comment: "A code based on a unique count per project, pre filled with a project code"
+      type: string
+      length: 50
+      required: true
+    title:
+      type: string
+      length: 180
+      required: true
+    description:
+      type: text
+      nullable: true
+    priority:
+      type: enum
+      options: [low, normal, high, critical]
+      default: normal
+    story_points:
+      type: smallInteger
+      unsigned: true
+      nullable: true
+  relations:
+    Project:
+      namespace: Scrum
+      type: belongsTo
+      local: project_id
+      foreign: id
+    TicketStatus:
+      namespace: Scrum
+      type: belongsTo
+      local: ticket_status_id
+      foreign: id
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Assignee:
+      namespace: Auth
+      model: User
+      function: assignee
+      type: belongsTo
+      local: assignee_id
+      foreign: id
+    PreviousAssignee:
+      namespace: Auth
+      model: User
+      function: previousAssignee
+      type: belongsTo
+      local: previous_assignee_id
+      foreign: id
+    Epic:
+      namespace: Scrum
+      type: belongsTo
+      local: epic_id
+      foreign: id
+Comment:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Comment
+  plural: Comments
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    ticket_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    comment_id:
+      type: bigInteger
+      unsigned: true
+    title:
+      type: string
+      length: 180
+      required: true
+    description:
+      type: text
+      nullable: true
+  relations:
+    Ticket:
+      namespace: Scrum
+      type: belongsTo
+      local: ticket_id
+      foreign: id
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+    Comment:
+      namespace: Scrum
+      type: belongsTo
+      local: comment_id
+      foreign: id
+Attachment:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Bijlage
+  plural: Bijlages
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    creator_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    title:
+      type: string
+      nullable: true
+    file_name:
+      type: string
+      required: true
+    file_path:
+      type: string
+      required: true
+    file_type:
+      type: string
+      required: true
+    file_size:
+      type: integer
+      nullable: true
+  relations:
+    Creator:
+      namespace: Auth
+      model: User
+      function: creator
+      type: belongsTo
+      local: creator_id
+      foreign: id
+Tag:
+  namespace: Scrum
+  timestamps: true
+  softDelete: true
+  single: Tag
+  plural: Tags
+  category: Scrum
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    name:
+      type: string
+      length: 40
+      required: true
+    category:
+      type: string
+      length: 30
+      nullable: true
+  relations:
+    Project:
+      namespace: Scrum
+      type: belongsTo
+      local: project_id
+      foreign: id
+GroupRole:
+  namespace: Management
+  timestamps: true
+  pivot_only: true
+  columns:
+    group_id:
+      type: bigInteger
+      unsigned: true
+    role_id:
+      type: bigInteger
+      unsigned: true
+  relations:
+    Group:
+      namespace: Management
+      type: belongsTo
+      local: group_id
+      foreign: id
+    Role:
+      namespace: Management
+      type: belongsTo
+      local: role_id
+      foreign: id
+GroupPermission:
+  namespace: Management
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    group_id:
+      type: bigInteger
+      unsigned: true
+    permission_id:
+      type: bigInteger
+      unsigned: true
+  relations:
+    Group:
+      namespace: Management
+      type: belongsTo
+      local: group_id
+      foreign: id
+    Permission:
+      namespace: Management
+      type: belongsTo
+      local: permission_id
+      foreign: id
+RoleUser:
+  namespace: Management
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    role_id:
+      type: bigInteger
+      unsigned: true
+    user_id:
+      type: bigInteger
+      unsigned: true
+  relations:
+    Role:
+      namespace: Management
+      type: belongsTo
+      local: role_id
+      foreign: id
+    User:
+      namespace: Auth
+      type: belongsTo
+      local: user_id
+      foreign: id
+DepartmentUser:
+  namespace: Management
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    department_id:
+      type: bigInteger
+      unsigned: true
+    user_id:
+      type: bigInteger
+      unsigned: true
+  relations:
+    Department:
+      namespace: Management
+      type: belongsTo
+      local: department_id
+      foreign: id
+    User:
+      namespace: Auth
+      type: belongsTo
+      local: user_id
+      foreign: id
+TicketUser:
+  namespace: Scrum
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    ticket_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    user_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    assignee_id:
+      type: bigInteger
+      unsigned: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+    sprint_id:
+      type: bigInteger
+      unsigned: true
+  relations:
+    Ticket:
+      namespace: Scrum
+      type: belongsTo
+      local: ticket_id
+      foreign: id
+    User:
+      namespace: Auth
+      type: belongsTo
+      local: user_id
+      foreign: id
+    Assignee:
+      namespace: Auth
+      model: User
+      function: assignee
+      type: hasOne
+      local: assignee_id
+      foreign: id
+    Project:
+      namespace: Scrum
+      type: belongsTo
+      local: project_id
+      foreign: id
+    Sprint:
+      namespace: Scrum
+      type: belongsTo
+      local: sprint_id
+      foreign: id
+TicketSprint:
+  namespace: Scrum
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      unsigned: true
+      primary: true
+    ticket_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    sprint_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+  relations:
+    Ticket:
+      namespace: Scrum
+      type: belongsTo
+      local: ticket_id
+      foreign: id
+    Sprint:
+      namespace: Scrum
+      type: belongsTo
+      local: sprint_id
+      foreign: id
+    Project:
+      namespace: Scrum
+      type: hasOne
+      local: project_id
+      foreign: id
+AttachmentTicket:
+  namespace: Scrum
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    attachment_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    ticket_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+  relations:
+    Attachment:
+      namespace: Scrum
+      type: belongsTo
+      local: attachment_id
+      foreign: id
+    Ticket:
+      namespace: Scrum
+      type: belongsTo
+      local: ticket_id
+      foreign: id
+AttachmentProject:
+  namespace: Scrum
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    attachment_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    project_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+  relations:
+    Attachment:
+      namespace: Scrum
+      type: belongsTo
+      local: attachment_id
+      foreign: id
+    Project:
+      namespace: Scrum
+      type: belongsTo
+      local: project_id
+      foreign: id
+AttachmentComment:
+  namespace: Scrum
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    attachment_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    comment_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+  relations:
+    Attachment:
+      namespace: Scrum
+      type: belongsTo
+      local: attachment_id
+      foreign: id
+    Comment:
+      namespace: Scrum
+      type: belongsTo
+      local: comment_id
+      foreign: id
+TagTicket:
+  namespace: Scrum
+  timestamps: true
+  pivot_only: true
+  columns:
+    id:
+      type: bigInteger
+      primary: true
+      unsigned: true
+    tag_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+    ticket_id:
+      type: bigInteger
+      unsigned: true
+      required: true
+  relations:
+    Tag:
+      namespace: Scrum
+      type: belongsTo
+      local: tag_id
+      foreign: id
+    Ticket:
+      namespace: Scrum
+      type: belongsTo
+      local: ticket_id
+      foreign: id

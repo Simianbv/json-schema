@@ -1,0 +1,6 @@
+
+    /**
+     * The name of the table to use.
+     * @var string
+     */
+    protected $dates = ['deleted_at'];
