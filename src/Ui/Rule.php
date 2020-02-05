@@ -8,6 +8,7 @@
 namespace Simianbv\JsonSchema\Ui;
 
 use Simianbv\JsonSchema\Contracts\ConditionInterface;
+use Simianbv\JsonSchema\Contracts\RuleEffectInterface;
 use Simianbv\JsonSchema\Contracts\RuleInterface;
 
 /**
@@ -37,7 +38,7 @@ class Rule implements RuleInterface
     protected $rule_conditions = [];
 
     /**
-     * @var
+     * @var string
      */
     protected $rule_scope;
 
@@ -77,28 +78,47 @@ class Rule implements RuleInterface
         return $this;
     }
 
+    /**
+     * @param string|RuleEffectInterface $effect
+     *
+     * @return RuleInterface
+     */
     public function effect($effect): RuleInterface
     {
         $this->rule_effect = $effect;
         return $this;
     }
 
+    /**
+     * @return string|false
+     */
     public function __toString()
     {
         return $this->toJson();
     }
 
+    /**
+     * @return false|string
+     */
     public function toJson()
     {
         return json_encode($this->toArray());
     }
 
+    /**
+     * @param array $arr
+     *
+     * @return bool
+     */
     protected function isMultiArray(array $arr)
     {
         rsort($arr);
         return isset($arr[0]) && is_array($arr[0]);
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         $rule = [

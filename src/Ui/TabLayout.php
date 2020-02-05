@@ -7,23 +7,30 @@
 namespace Simianbv\JsonSchema\Ui;
 
 /**
- * @class   GroupLayout
+ * @method make(array $fields = [], string $name = null)
+ * @class   TabLayout
  * @package Simianbv\JsonSchema\Ui
  */
 class TabLayout extends Layout
 {
-
-    public function provideAdditionalAttributes(): array
-    {
-        return ['icon'];
-    }
-
     function initialize(): void
     {
         $this->tab();
     }
 
+    /**
+     * @return array
+     */
+    public function provideAdditionalAttributes(): array
+    {
+        return ['icon'];
+    }
 
+    /**
+     * @param string $icon
+     *
+     * @return $this
+     */
     public function icon(string $icon)
     {
         $this->attributes(['icon' => $icon]);

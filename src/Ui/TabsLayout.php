@@ -7,7 +7,8 @@
 namespace Simianbv\JsonSchema\Ui;
 
 /**
- * @class   GroupLayout
+ * @method make(array $fields = [], string $name = null)
+ * @class   TabsLayout
  * @package Simianbv\JsonSchema\Ui
  */
 class TabsLayout extends Layout
@@ -18,11 +19,19 @@ class TabsLayout extends Layout
         $this->tabs();
     }
 
+    /**
+     * @return array
+     */
     public function provideAdditionalAttributes(): array
     {
         return ['animated'];
     }
 
+    /**
+     * @param bool $animate
+     *
+     * @return $this
+     */
     public function animate($animate = true)
     {
         $this->attribute('animated', $animate);

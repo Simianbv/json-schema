@@ -7,6 +7,7 @@
 namespace Simianbv\JsonSchema\Ui;
 
 /**
+ * @method make(array $fields = [], string $name = null)
  * @class   HorizontalLayout
  * @package Simianbv\JsonSchema\Ui
  */

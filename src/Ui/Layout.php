@@ -18,34 +18,90 @@ use Simianbv\JsonSchema\Fields\Field;
  */
 abstract class Layout implements LayoutInterface
 {
-
+    /**
+     * @var string
+     */
     protected $label;
+    /**
+     * @var string
+     */
     protected $collection_name;
+    /**
+     * @var string
+     */
     protected $collection_description;
-
+    /**
+     * @var array|Field[]|Layout[]
+     */
     protected $elements = [];
-
+    /**
+     * @var string|int
+     */
     protected $size;
+    /**
+     * @var int
+     */
     protected $sort_order;
+    /**
+     * @var int
+     */
     protected $sort_index;
-
+    /**
+     * @var array
+     */
     protected $collection_attributes = [];
-    /** @var $collection_rules Rule[] */
+    /**
+     * @var Rule[]
+     */
     protected $collection_rules = [];
+    /**
+     * @var string
+     */
     protected $collection_field_name = 'fields';
+    /**
+     * @var string
+     */
     protected $collection_type = LayoutInterface::TYPE_VERTICAL;
+    /**
+     * @var string
+     */
     protected $collection_orientation = LayoutInterface::ORIENTATION_VERTICAL;
+    /**
+     * @var string
+     */
     protected $collection_visibility = LayoutInterface::VISIBILITY_SHOW;
-
+    /**
+     * @var array
+     */
     protected $default_meta_attributes = ['size'];
 
+    /**
+     * @override
+     * @abstract
+     * @return void
+     */
     abstract function initialize(): void;
 
+    /**
+     * If you want to pass along additional attributes, you can override this method in the subclasses to provide
+     * additional attributes.
+     *
+     * @return array
+     */
     public function provideAdditionalAttributes(): array
     {
         return [];
     }
 
+    /**
+     * The "magic" bootstrap to create a new Layout object where you can pass along the fields and pass along a
+     * name. The default orientation is vertical. If the type is either group, inline or tabs, also set up the label.
+     *
+     * @param array       $fields
+     * @param string|null $name
+     *
+     * @return LayoutInterface
+     */
     public function make(array $fields = [], string $name = null): LayoutInterface
     {
         $this->vertical();
@@ -59,7 +115,6 @@ abstract class Layout implements LayoutInterface
                 }
             }
         }
-
         $this->initialize();
 
         if ($name !== null) {
@@ -74,6 +129,15 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Set the type for this layout. This should be one of group, tab, tabs, horizontal, vertical or inline.
+     *
+     * @param string $type
+     *
+     * @return Layout
+     * @see LayoutInterface
+     *
+     */
     public function type(string $type): Layout
     {
         if (in_array($type, $this->getTypes())) {
@@ -83,13 +147,22 @@ abstract class Layout implements LayoutInterface
     }
 
 
+    /**
+     * Set the layout to be inline.
+     *
+     * @return Layout
+     */
     public function inline(): Layout
     {
         $this->collection_type = Layout::TYPE_INLINE;
         return $this;
     }
 
-
+    /**
+     * Set the layout to be horizontal.
+     *
+     * @return Layout
+     */
     public function horizontal(): Layout
     {
         $this->horizontalOrientation();
@@ -97,12 +170,22 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Set the orientation for this layout to be horizontal.
+     *
+     * @return Layout
+     */
     public function horizontalOrientation(): Layout
     {
         $this->collection_orientation = Layout::ORIENTATION_HORIZONTAL;
         return $this;
     }
 
+    /**
+     * Set the layout to be vertical.
+     *
+     * @return Layout
+     */
     public function vertical(): Layout
     {
         $this->verticalOrientation();
@@ -110,13 +193,24 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Set the orientation for this layout to be vertical.
+     *
+     * @return Layout
+     */
     public function verticalOrientation(): Layout
     {
         $this->collection_orientation = Layout::ORIENTATION_VERTICAL;
         return $this;
     }
 
-
+    /**
+     * Set up this layout to be a Group layout.
+     *
+     * @param bool $vertical
+     *
+     * @return Layout
+     */
     public function group(bool $vertical = true): Layout
     {
         if ($vertical) {
@@ -129,7 +223,13 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
-
+    /**
+     * Set up for this layout as a Tab layout.
+     *
+     * @param bool $vertical
+     *
+     * @return Layout
+     */
     public function tab(bool $vertical = true): Layout
     {
         if ($vertical) {
@@ -142,6 +242,13 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Set up this layout as a Tabs layout.
+     *
+     * @param bool $vertical
+     *
+     * @return Layout
+     */
     public function tabs(bool $vertical = true): Layout
     {
         if ($vertical) {
@@ -154,12 +261,26 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Add additional rules to this layout.
+     *
+     * @param RuleInterface $rule
+     *
+     * @return Layout
+     */
     public function rule(RuleInterface $rule): Layout
     {
         $this->collection_rules[] = $rule;
         return $this;
     }
 
+    /**
+     * Add rules for this layout to adhere by.
+     *
+     * @param array $rules
+     *
+     * @return Layout
+     */
     public function rules(array $rules): Layout
     {
         foreach ($rules as $rule) {
@@ -171,6 +292,13 @@ abstract class Layout implements LayoutInterface
     }
 
 
+    /**
+     * Set up the default visibility state for this layout.
+     *
+     * @param string $state
+     *
+     * @return Layout
+     */
     public function visibility(string $state): Layout
     {
         if (in_array($state, $this->getVisibilityStates())) {
@@ -179,6 +307,13 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Set up the size of this layout.
+     *
+     * @param string|int $size
+     *
+     * @return Layout
+     */
     public function size($size): Layout
     {
         $this->size = $size;
@@ -186,6 +321,13 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
+    /**
+     * Add additional attributes, pass an array and each key value pair will be added as attributes
+     *
+     * @param array $attributes
+     *
+     * @return Layout
+     */
     public function attributes(array $attributes): Layout
     {
         foreach ($attributes as $key => $value) {
@@ -194,77 +336,134 @@ abstract class Layout implements LayoutInterface
         return $this;
     }
 
-    public function attribute($attr, $value): Layout
+    /**
+     * Add additional key/value attributes to the layout. The $key prop should be a string
+     * but the values can be whatever you want, as long as this is serializable to JSON.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return Layout
+     */
+    public function attribute(string $key, $value): Layout
     {
-        $this->collection_attributes[$attr] = $value;
+        $this->collection_attributes[$key] = $value;
         return $this;
     }
 
+    /**
+     * Add the name of this layout.
+     *
+     * @param string $name
+     *
+     * @return Layout
+     */
     public function name(string $name): Layout
     {
         $this->collection_name = $name;
         return $this;
     }
 
+    /**
+     * Add a label to this layout.
+     *
+     * @param string $label
+     *
+     * @return Layout
+     */
     public function label(string $label): Layout
     {
         $this->label = $label;
         return $this;
     }
 
+    /**
+     * Add an additional description to this layout.
+     *
+     * @param string $description
+     *
+     * @return Layout
+     */
     public function description(string $description): Layout
     {
         $this->collection_description = $description;
         return $this;
     }
 
+    /**
+     * A helper to disregard grouping. If used, the with_group prop is set to false.
+     *
+     * @return Layout
+     */
     public function plain(): Layout
     {
         $this->with_group = false;
         return $this;
     }
 
+    /**
+     * Add an additional Field to the layout.
+     *
+     * @param FieldInterface $field
+     *
+     * @return Layout
+     */
     public function addField(FieldInterface $field): Layout
     {
         $this->elements[] = $field;
         return $this;
     }
 
+    /**
+     * Add an additional sub layout to this layout.
+     *
+     * @param LayoutInterface $layout
+     *
+     * @return Layout
+     */
     public function addLayout(LayoutInterface $layout): Layout
     {
         $this->elements[] = $layout;
         return $this;
     }
 
-    public function fieldName($name): Layout
+    /**
+     * Set the field name for this layout.
+     *
+     * @param string $name
+     *
+     * @return Layout
+     */
+    public function fieldName(string $name): Layout
     {
-        if (is_string($name) && strlen($name) > 0) {
-            $this->collection_field_name = $name;
-        }
+        $this->collection_field_name = $name;
         return $this;
     }
 
+    /**
+     * A helper to check if rules have been assigned to this layout.
+     *
+     * @return bool
+     */
     public function hasRules(): bool
     {
         return count($this->collection_rules) > 0;
     }
 
+    /**
+     * If a field name has been assigned, return the field name.
+     * @return string
+     */
     public function getFieldName(): string
     {
         return $this->collection_field_name;
     }
 
-    public function getTypes(): array
-    {
-        return [
-            Layout::TYPE_GROUP,
-            Layout::TYPE_HORIZONTAL,
-            Layout::TYPE_VERTICAL,
-            Layout::TYPE_TAB,
-            Layout::TYPE_TABS,
-        ];
-    }
-
+    /**
+     * Get the label for this layout.
+     *
+     * @return string
+     */
     public function getLabel(): string
     {
         if (!$this->label) {
@@ -273,22 +472,58 @@ abstract class Layout implements LayoutInterface
         return $this->label;
     }
 
+    /**
+     * Get the description for this layout.
+     *
+     * @return string
+     */
     public function getDescription(): string
     {
         return $this->collection_description ?? '';
     }
 
 
+    /**
+     * Returns the collection type, i.e. group, tab, tabs etc.
+     *
+     * @return string
+     */
     public function getType(): string
     {
         return $this->collection_type;
     }
 
+    /**
+     * Return a formatted string based on the name of the type. Should represent the name of the class.
+     *
+     * @return string
+     */
     public function getLayoutType(): string
     {
         return ucfirst($this->getType()) . "Layout";
     }
 
+    /**
+     * Returns all the available types.
+     * @return array
+     */
+    public function getTypes(): array
+    {
+        return [
+            Layout::TYPE_GROUP,
+            Layout::TYPE_HORIZONTAL,
+            Layout::TYPE_VERTICAL,
+            Layout::TYPE_TAB,
+            Layout::TYPE_TABS,
+            Layout::TYPE_INLINE,
+        ];
+    }
+
+    /**
+     * Returns all the available visibility states a layout can have.
+     *
+     * @return array
+     */
     public function getVisibilityStates(): array
     {
         return [
@@ -298,6 +533,12 @@ abstract class Layout implements LayoutInterface
         ];
     }
 
+    /**
+     * Build up the entire layout, add the correct props to each element, either a field element or a
+     * layout element, run them all and return an array containing the entire sub tree of all elements.
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         $data = [
@@ -331,6 +572,11 @@ abstract class Layout implements LayoutInterface
         return $data;
     }
 
+    /**
+     * Build up the FORM SCHEMA as defined by the JSON SCHEMA draft.
+     *
+     * @return array
+     */
     public function toFormSchema(): array
     {
         return [
@@ -343,6 +589,14 @@ abstract class Layout implements LayoutInterface
         ];
     }
 
+    /**
+     * Process the code, iterate over them and build up the UI Schema layout, once done, return a JSON string
+     * as defined by the JSON SCHEMA.
+     *
+     * @return array
+     * @todo: actually adhere to the JSON SCHEMA definitions
+     *
+     */
     public function toUiSchema()
     {
         $data = [
@@ -395,6 +649,11 @@ abstract class Layout implements LayoutInterface
         return $data;
     }
 
+    /**
+     * Get all the rules associated with this layout,
+     *
+     * @return array
+     */
     public function getRules(): array
     {
         $rules = [];
@@ -404,6 +663,11 @@ abstract class Layout implements LayoutInterface
         return $rules;
     }
 
+    /**
+     * Returns an array containing all the properties.
+     *
+     * @return array
+     */
     public function getProperties(): array
     {
         $data = [];
@@ -418,6 +682,11 @@ abstract class Layout implements LayoutInterface
         return $data;
     }
 
+    /**
+     * Iterate over all the elements and check what properties are required.
+     *
+     * @return array
+     */
     public function getRequiredProperties(): array
     {
         $required = [];
@@ -430,6 +699,11 @@ abstract class Layout implements LayoutInterface
         return $required;
     }
 
+    /**
+     * Get all the elements in this layout, if the layout has child layouts, get those child elements as well.
+     *
+     * @return array
+     */
     public function getElements(): array
     {
         $elements = [];
@@ -445,6 +719,11 @@ abstract class Layout implements LayoutInterface
         return $elements;
     }
 
+    /**
+     * Get all the underlying layouts.
+     *
+     * @return array
+     */
     public function getLayouts(): array
     {
         $layouts = [];
@@ -456,6 +735,13 @@ abstract class Layout implements LayoutInterface
         return $layouts;
     }
 
+    /**
+     * Count up the elements inside this specific layout.
+     *
+     * @param string|null $type
+     *
+     * @return array|int
+     */
     public function count(string $type = null)
     {
         if ($type === FieldInterface::class || $type === LayoutInterface::class) {
@@ -468,11 +754,23 @@ abstract class Layout implements LayoutInterface
         return count($this->elements);
     }
 
+    /**
+     * Simply build up the entire Layout in JSON SCHEMA and return the array as a JSON string.
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->toJson();
     }
 
+    /**
+     * Process the layout by formatting this to an JSON SCHEMA array and return the JSON string.
+     *
+     * @param int|null $flags
+     *
+     * @return string
+     */
     public function toJson(int $flags = null): string
     {
         return json_encode($this->toArray(), $flags);
