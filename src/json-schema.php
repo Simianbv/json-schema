@@ -7,6 +7,7 @@ return [
      */
     'logging' => true,
     'log_path' => storage_path('logs/json'),
+    'base_url' => env('APP_URL'),
 
     /*
      * Define te resource paths, both namespace and physical path
@@ -14,7 +15,7 @@ return [
     'resources' => [
         'path' => app_path('Resources/Json'),
         'namespace' => "App\\Resources\\Json\\",
-        'facade_namespace' => "\\Simianbv\\JsonSchema\\Facades\\",
+        'facade_namespace' => "\\Simianbv\\JsonSchema\\Fields\\Facades\\",
     ],
 
     /*
@@ -30,7 +31,7 @@ return [
      */
     'models' => [
         'path' => app_path('Models'),
-        'namespace' => "\\App\\Models\\",
+        'namespace' => "App\\Models\\",
     ],
 
     /*

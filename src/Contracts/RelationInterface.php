@@ -14,7 +14,7 @@ use Illuminate\Contracts\Support\Jsonable;
  */
 interface RelationInterface extends Jsonable
 {
-w
+
     const RELATION_ONE_TO_ONE = 'one-to-one';
     const RELATION_ONE_TO_MANY = 'one-to-many';
     const RELATION_MANY_TO_ONE = 'many-to-one';

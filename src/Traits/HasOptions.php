@@ -44,7 +44,7 @@ trait HasOptions
                 }
                 $this->options[$key] = $data;
             } else {
-                $this->options[$count] = ['value' => $value, 'label' => $key];
+                $this->options[$count] = ['value' => $key, 'label' => $value];
             }
             $count++;
         }

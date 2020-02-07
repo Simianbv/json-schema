@@ -8,15 +8,15 @@
 namespace Simianbv\JsonSchema\Traits;
 
 use Simianbv\JsonSchema\Contracts\RelationInterface;
-use Simianbv\JsonSchema\Fields\BelongsTo;
-use Simianbv\JsonSchema\Fields\BelongsToMany;
-use Simianbv\JsonSchema\Fields\Field;
-use Simianbv\JsonSchema\Fields\HasMany;
-use Simianbv\JsonSchema\Fields\HasOne;
+use Simianbv\JsonSchema\Fields\Elements\BelongsTo;
+use Simianbv\JsonSchema\Fields\Elements\BelongsToMany;
+use Simianbv\JsonSchema\Fields\Elements\Field;
+use Simianbv\JsonSchema\Fields\Elements\HasMany;
+use Simianbv\JsonSchema\Fields\Elements\HasOne;
 
 /**
  * @trait   HasRelations
- * @package Simianbv\JsonSchema\Fields
+ * @package Simianbv\JsonSchema\Fields\Elements
  */
 trait HasRelations
 {

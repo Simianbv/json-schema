@@ -17,8 +17,6 @@ use Illuminate\Support\Str;
 class Resource extends Base
 {
 
-    // protected $location =  null; // 'app/Lightning/Resources';
-
     /**
      * @var string
      */
@@ -66,7 +64,6 @@ class Resource extends Base
      */
     public function __construct()
     {
-        // $this->location = config('json-schema.resources.location');
         $this->resource_stub_location = config('json-schema.stubs.resource');
         $this->facade_namespace = config('json-schema.resources.facade_namespace');
         $this->model_namespace = config('json-schema.models.namespace');
@@ -275,8 +272,13 @@ class Resource extends Base
             if (isset($attr['minLength'])) {
                 $componentField .= '->min(' . $attr['minLength'] . ')';
             }
-            if (((isset($attr['required']) && $attr['required'] == true) ||
-                    (isset($attr['nullable']) && $attr['nullable'] == false)) && $componentType !== 'ID') {
+            if (
+                    (
+                        (isset($attr['required']) && $attr['required'] == true) ||
+                        (isset($attr['nullable']) && $attr['nullable'] == false)
+                    )
+                    && $componentType !== 'ID'
+            ) {
                 $componentField .= '->required()';
             }
             if (isset($attr['nullable']) && $attr['nullable'] == true) {
@@ -288,16 +290,20 @@ class Resource extends Base
             }
         }
 
-        // Log::debug($model);
-        // Log::debug($components);
-
         return $components;
     }
 
+    /**
+     * @param $type
+     * @param $relations
+     *
+     * @return array
+     */
     public function getComponentRelation($type, $relations): array
     {
         $relation = null;
         $relationModel = null;
+
         foreach ($relations as $key => $attr) {
             if ($attr['local'] == $type) {
                 $relation = $relations[$key];
