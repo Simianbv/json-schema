@@ -6,6 +6,8 @@
 
 namespace Simianbv\JsonSchema\Fields\Ui;
 
+use Simianbv\JsonSchema\Fields\Layout;
+
 /**
  * @method make(array $fields = [], string $name = null)
  * @class    TabsLayout

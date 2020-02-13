@@ -7,6 +7,8 @@
 
 namespace Simianbv\JsonSchema\Fields\Elements;
 
+use Simianbv\JsonSchema\Fields\Field;
+
 /**
  * @class   Image
  * @package Simianbv\JsonSchema\Fields\Elements

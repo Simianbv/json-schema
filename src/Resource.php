@@ -1,15 +1,19 @@
 <?php
 
+/**
+ * @copyright (c) Simian B.V. 2019
+ * @version       1.0.0
+ */
+
 namespace Simianbv\JsonSchema;
 
-
-use Simianbv\JsonSchema\Contracts\LayoutInterface;
-use Simianbv\JsonSchema\Contracts\ResourceInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Simianbv\JsonSchema\Contracts\LayoutInterface;
+use Simianbv\JsonSchema\Contracts\ResourceInterface;
 
 /**
  * @class   Resource
@@ -44,7 +48,7 @@ abstract class Resource implements ResourceInterface
      *
      * @return mixed
      */
-    abstract public function filters(Request $request): array;
+    abstract public function filters(Request $request): LayoutInterface;
 
     /**
      * Returns an array containing all the Action classes that can run on the Resource's Model.

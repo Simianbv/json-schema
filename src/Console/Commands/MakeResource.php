@@ -137,18 +137,23 @@ class MakeResource extends Command
             $this->log_path = config('json-schema.log_path');
 
             if (!File::isDirectory($this->getLogPath())) {
-                $this->line("<fg=magenta>" . $this->getLogPath() . "</>\n");
+                $this->line("<fg=magenta>log path location: " . $this->getLogPath() . "</>\n");
                 File::makeDirectory($this->getLogPath(), 0755, true);
             }
         }
 
+        if(!File::isDirectory(config('json-schema.overview.location'))){
+            $this->line("<fg=magenta>creating directory: " . config('json-schema.overview.location') . "</>\n");
+            File::makeDirectory(config('json-schema.overview.location'), 0755, true);
+        }
+
         if (!File::isDirectory(config('json-schema.yaml.path'))) {
-            $this->line("<fg=magenta>" . config('json-schema.yaml.path') . "</>\n");
+            $this->line("<fg=magenta>creating directory: " . config('json-schema.yaml.path') . "</>\n");
             File::makeDirectory(config('json-schema.yaml.path'), 0755, true);
         }
 
         if (!File::isDirectory(config('json-schema.resources.path'))) {
-            $this->line("<fg=magenta>" . config('json-schema.resources.path') . "</>\n");
+            $this->line("<fg=magenta>creating directory: " . config('json-schema.resources.path') . "</>\n");
             File::makeDirectory(config('json-schema.resources.path'), 0755, true);
         }
     }
@@ -288,6 +293,7 @@ class MakeResource extends Command
         if (!$this->isPivotOnly($resource)) {
             $this->createControllerIfNotExisting($namespace, $model, $resource);
             $this->createResourceIfNotExisting($namespace, $model, $resource);
+            $this->createOverview($namespace, $model, $resource);
         }
     }
 
@@ -301,6 +307,34 @@ class MakeResource extends Command
     private function isPivotOnly($resource)
     {
         return isset($resource['pivot_only']) && $resource['pivot_only'] == true;
+    }
+
+    /**
+     * Create the Overview for the given resource.
+     *
+     * @param $namespace
+     * @param $model
+     * @param $resource
+     *
+     * @return void
+     */
+    private function createOverview($namespace, $model, $resource)
+    {
+        $overviewFile = ucfirst(Str::slug(Str::snake(Str::plural($model))) . "-overview.vue");
+        $detailFile = ucfirst(Str::slug(Str::snake($model)) . "-detail.vue");
+
+        $overviewPath = base_path('resources/views/generated/' . $overviewFile);
+        $detailPath = base_path('resources/views/generated/' . $detailFile);
+
+        $this->info(str_pad("Creating Overview:", self::$PAD_LENGTH) . $overviewPath);
+        $contents = $this->overviewGenerator->create($resource, $namespace, $model);
+
+
+        file_put_contents($overviewPath, $contents['overview']);
+        file_put_contents($detailPath, $contents['detail']);
+
+        $this->files_generated[] = $overviewPath;
+        $this->files_generated[] = $detailPath;
     }
 
     /**
@@ -478,6 +512,26 @@ class MakeResource extends Command
     private function dir(string $ns): string
     {
         return strlen($ns) > 0 ? $ns . '/' : '';
+    }
+
+    /**
+     * Add a route to the output which needs to be copied over.
+     *
+     * @param string $route
+     */
+    public function addFrontendRoute(string $route)
+    {
+        $this->frontend_routes[] = $route;
+    }
+
+    /**
+     * Add a import to the output which needs to be copied over.
+     *
+     * @param string $import
+     */
+    public function addFrontendImport(string $import)
+    {
+        $this->frontend_imports[] = $import;
     }
 
     /**

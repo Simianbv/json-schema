@@ -7,6 +7,8 @@
 
 namespace Simianbv\JsonSchema\Fields\Elements;
 
+use Simianbv\JsonSchema\Fields\Relation;
+
 /**
  * @class   BelongsTo
  * @package Simianbv\JsonSchema\Fields\Elements

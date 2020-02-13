@@ -6,6 +6,8 @@
 
 namespace Simianbv\JsonSchema\Fields\Elements;
 
+use Simianbv\JsonSchema\Fields\Field;
+
 /**
  * @class   DateTime
  * @package Simianbv\JsonSchema\Fields\Elements

@@ -5,7 +5,7 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Elements;
+namespace Simianbv\JsonSchema\Fields;
 
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Log;

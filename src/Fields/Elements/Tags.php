@@ -8,6 +8,7 @@
 namespace Simianbv\JsonSchema\Fields\Elements;
 
 use Simianbv\JsonSchema\Contracts\HasRelationInterface;
+use Simianbv\JsonSchema\Fields\Field;
 use Simianbv\JsonSchema\Traits\HasItems;
 use Simianbv\JsonSchema\Traits\HasOptions;
 use Simianbv\JsonSchema\Traits\HasRelations;

@@ -22,47 +22,38 @@ abstract class Filter implements FilterInterface
      * @var string
      */
     private $filter_column = '';
-
     /**
      * @var string
      */
     private $filter_id = '';
-
-    /**
-     * @var string
-     */
-    private $attribute_label = '';
-
     /**
      * @var string
      */
     private $filter_name = '';
-
+    /**
+     * @var string
+     */
+    private $attribute_label = '';
     /**
      * @var string
      */
     private $attribute_placeholder = '';
-
-    /**
-     * @var string
-     */
-    private $component_type = '';
-
     /**
      * @var string
      */
     private $column_type = '';
-
+    /**
+     * @var string
+     */
+    private $component_type = '';
     /**
      * @var array
      */
     private $filter_options = [];
-
     /**
      * @var array
      */
     private $meta = [];
-
     /**
      * Returns an array containing all the available options per component type.
      *
@@ -77,17 +68,14 @@ abstract class Filter implements FilterInterface
         'select' => self::FILTER_OPTIONS_SELECT,
         'tags' => self::FILTER_OPTIONS_TAGS,
     ];
-
     /**
      * @var bool
      */
     private $is_relation_column = false;
-
     /**
      * @var array
      */
     private $options = [];
-
     /**
      * @var string|null
      */
@@ -105,7 +93,7 @@ abstract class Filter implements FilterInterface
     public function initialize(string $label, string $column): Filter
     {
         $this->filter_id = $column;
-        $this->name = $label;
+        $this->filter_name = $label;
         $this->label($label);
         $this->column($column);
         $this->column_type = $this->getColumnType();
@@ -114,6 +102,18 @@ abstract class Filter implements FilterInterface
         return $this;
     }
 
+    /**
+     * Synonym for the initialize, except we want a unified access method.
+     *
+     * @param string $label
+     * @param string $column
+     *
+     * @return Filter
+     */
+    public function make(string $label, string $column): Filter
+    {
+        return $this->initialize($label, $column);
+    }
 
     /**
      * Return the type this column is associated with.
@@ -129,85 +129,80 @@ abstract class Filter implements FilterInterface
      */
     abstract public function getComponentType(): string;
 
-
     /**
      *
+     */
+    public function getValue()
+    {
+        if ($this->hasValue()) {
+            return request()->get($this->getColumn());
+        }
+        return null;
+    }
+
+    /**
+     * Check if the value is given somewhere in the get request.
      *
+     * @return bool
+     */
+    public function hasValue()
+    {
+        return request()->get($this->getColumn()) && request()->get($this->getColumn()) !== null;
+    }
+
+    /**
+     * Build up the filter schema to an array containing all the right ingredients.
      *
      * @return array
      */
     public function toArray(): array
     {
-        if ($this->validate()) {
-            $data = [
-                '$id' => '#/properties/' . $this->getName(),
-                'type' => $this->field_type ?? $this->getFieldType(),
-                'title' => $this->getTitle(),
-                'name' => $this->getName(),
-                'component_type' => Str::slug($this->getComponentType()),
-                'default_value' => $this->field_default_value,
-                'attrs' => [
-                    'label' => $this->field_label,
-                    'placeholder' => $this->field_placeholder,
-                ],
-                'value' => $this->field_value,
-                'nullable' => $this->is_nullable,
-                'meta' => [],
-            ];
+        $data = [
+            '$id' => '#/properties/' . $this->getColumn(),
+            'type' => $this->field_type ?? $this->getColumnType(),
+            'title' => $this->getLabel(),
+            'name' => $this->getName(),
+            'column' => $this->getColumn(),
+            'component_type' => Str::slug($this->getComponentType()),
+            'attrs' => [
+                'label' => $this->getLabel(),
+                'placeholder' => $this->getPlaceholder(),
+            ],
+            'value' => $this->getValue(),
+            'meta' => [],
+        ];
 
-            if ($this->getFieldFormat()) {
-                $data['format'] = $this->getFieldFormat();
-            }
+        //        if ($this->getFieldFormat()) {
+        //            $data['format'] = $this->getFieldFormat();
+        //        }
 
-            if ($this->field_minimum) {
-                $data['minimum'] = $this->field_minimum;
-            }
-            if ($this->field_maximum) {
-                $data['maximum'] = $this->field_maximum;
-            }
-
-
-            if (!empty($this->meta)) {
-                $data['meta'] = $this->meta;
-            }
-
-            $data['meta']['visibility'] = [
-                'browse' => $this->visibility_browse,
-                'read' => $this->visibility_read,
-                'edit' => $this->visibility_edit,
-                'add' => $this->visibility_add,
-            ];
-
-            if (!empty($this->base_classes)) {
-                $data['base_classes'] = $this->base_classes;
-            }
-
-            if ($this instanceof HasRelationInterface && $this->hasRelation()) {
-                $data['meta']['relation'] = $this->relationToArray();
-            }
-
-            if ($params = $this->getAdditionalProperties()) {
-                foreach ($params as $key => $param) {
-                    if (is_array($param)) {
-                        $obj = $param;
-                        $param = $key;
-                        if (isset($obj['type']) && $obj['type'] == 'object') {
-                            $data[$param] = (object)$this->{$param};
-                        }
-                    } else {
-                        if (isset($this->{$param})) {
-                            $data[$param] = $this->{$param};
-                        }
-                    }
-                }
-            }
-            return $data;
-        } else {
-            return [];
-            // throw new Exception("Invalid data provided for this field. Make sure the Field is a valid Type and/or Relation");
+        if (!empty($this->meta)) {
+            $data['meta'] = $this->meta;
         }
 
+        if (!empty($this->base_classes)) {
+            $data['base_classes'] = $this->base_classes;
+        }
 
+        if ($this instanceof HasRelationInterface && $this->hasRelation()) {
+            $data['meta']['relation'] = $this->relationToArray();
+        }
+
+        //        if ($params = $this->getAdditionalProperties()) {
+        //            foreach ($params as $key => $param) {
+        //                if (is_array($param)) {
+        //                    $obj = $param;
+        //                    $param = $key;
+        //                    if (isset($obj['type']) && $obj['type'] == 'object') {
+        //                        $data[$param] = (object)$this->{$param};
+        //                    }
+        //                } else {
+        //                    if (isset($this->{$param})) {
+        //                        $data[$param] = $this->{$param};
+        //                    }
+        //                }
+        //            }
+        //        }
         return $data;
     }
 
@@ -376,6 +371,16 @@ abstract class Filter implements FilterInterface
     public function getName(): string
     {
         return $this->filter_name;
+    }
+
+    /**
+     * Return the name of the column.
+     *
+     * @return string
+     */
+    public function getColumn(): string
+    {
+        return $this->filter_column;
     }
 
     /**

@@ -5,7 +5,7 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Elements;
+namespace Simianbv\JsonSchema\Fields;
 
 use Illuminate\Support\Str;
 use Simianbv\JsonSchema\Contracts\FieldInterface;
@@ -13,7 +13,7 @@ use Simianbv\JsonSchema\Contracts\HasRelationInterface;
 
 /**
  * @class   Field
- * @package Simianbv\JsonSchema\Fields\Elements
+ * @package Simianbv\JsonSchema\Fields
  */
 abstract class Field implements FieldInterface
 {

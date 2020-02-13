@@ -32,12 +32,7 @@ class JsonSchemaServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/api.php');
-
-        $this->publishes(
-            [
-                __DIR__ . '/json-schema.php' => config_path('json-schema.php'),
-            ], "json-schema"
-        );
+        $this->publishes([__DIR__ . '/json-schema.php' => config_path('json-schema.php'),], "json-schema");
         $this->publishes(
             [
                 __DIR__ . '/resources/stubs/model.stub' => resource_path('stubs/model.stub'),
@@ -48,18 +43,15 @@ class JsonSchemaServiceProvider extends ServiceProvider
                 __DIR__ . '/resources/stubs/controller-has-one.stub' => resource_path('stubs/controller-has-one.stub'),
                 __DIR__ . '/resources/stubs/migration.stub' => resource_path('stubs/migration.stub'),
                 __DIR__ . '/resources/stubs/resource.stub' => resource_path('stubs/resource.stub'),
+                __DIR__ . '/resources/stubs/overview.stub' => resource_path('stubs/overview.stub'),
+                __DIR__ . '/resources/stubs/overview-column.stub' => resource_path('stubs/overview-column.stub'),
+                __DIR__ . '/resources/stubs/overview-detail.stub' => resource_path('stubs/overview-detail.stub'),
 
             ], "json-schema-stubs"
         );
 
-
         if ($this->app->runningInConsole()) {
-            $this->commands(
-                [
-                    MakeResource::class,
-                    //MakeSchemaFromModel::class
-                ]
-            );
+            $this->commands([MakeResource::class,]);
         }
     }
 }

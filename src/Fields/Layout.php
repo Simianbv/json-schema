@@ -4,13 +4,13 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Ui;
+namespace Simianbv\JsonSchema\Fields;
 
 use Illuminate\Support\Str;
 use Simianbv\JsonSchema\Contracts\FieldInterface;
 use Simianbv\JsonSchema\Contracts\LayoutInterface;
 use Simianbv\JsonSchema\Contracts\RuleInterface;
-use Simianbv\JsonSchema\Fields\Field;
+use Simianbv\JsonSchema\Fields\Elements\Field;
 
 /**
  * @class    Layout
