@@ -18,16 +18,28 @@ class Migration extends Base
     /**
      * @var string
      */
-    protected $location = 'database/migrations';
-    protected $stubLocation = 'Console/Lightning/Stubs/Lightning-Migration.stub';
+    protected $stubLocation = '';
+    /**
+     * @var array
+     */
     protected $fillables = [
         'Model',
         'Table',
         'Columns',
         'Timestamps',
     ];
-
+    /**
+     * @var string
+     */
     private $stub;
+
+    /**
+     * Migration constructor.
+     */
+    public function __construct()
+    {
+        $this->stubLocation = config('json-schema.stubs.migration');
+    }
 
     /**
      * @param $resource
@@ -39,7 +51,7 @@ class Migration extends Base
     public function create(array $resource, string $namespace, string $model): string
     {
         $this->resource = $resource;
-        $this->stub = file_get_contents(app_path($this->stubLocation));
+        $this->stub = file_get_contents($this->stubLocation);
 
         $columns = [];
 
