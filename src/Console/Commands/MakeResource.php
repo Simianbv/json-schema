@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
 use Simianbv\JsonSchema\Console\Generators\Controller;
 use Simianbv\JsonSchema\Console\Generators\Migration;
 use Simianbv\JsonSchema\Console\Generators\Model;
+use Simianbv\JsonSchema\Console\Generators\Overview;
 use Simianbv\JsonSchema\Console\Generators\Resource;
 use Symfony\Component\Yaml\Yaml;
 
@@ -90,16 +91,19 @@ class MakeResource extends Command
      * @var Resource
      */
     protected $resourceGenerator;
-
+    /**
+     * @var Overview
+     */
+    private $overviewGenerator;
     /**
      * @var array
      */
     protected $files_generated = [];
-
     /**
      * @var int
      */
     protected static $PAD_LENGTH = 30;
+
 
     /**
      * Create a new command instance.
@@ -108,23 +112,27 @@ class MakeResource extends Command
      * @param Controller $controllerGenerator
      * @param Migration  $migrationGenerator
      * @param Resource   $resourceGenerator
+     * @param Overview   $overviewGenerator
      */
     public function __construct(
         Model $modelGenerator,
         Controller $controllerGenerator,
         Migration $migrationGenerator,
-        Resource $resourceGenerator
+        Resource $resourceGenerator,
+        Overview $overviewGenerator
     ) {
         parent::__construct();
         $this->modelGenerator = $modelGenerator;
         $this->controllerGenerator = $controllerGenerator;
         $this->migrationGenerator = $migrationGenerator;
         $this->resourceGenerator = $resourceGenerator;
+        $this->overviewGenerator = $overviewGenerator;
         // notify the generators who's calling them
         $this->modelGenerator->setCallee($this);
         $this->controllerGenerator->setCallee($this);
         $this->migrationGenerator->setCallee($this);
         $this->resourceGenerator->setCallee($this);
+        $this->overviewGenerator->setCallee($this);
     }
 
     /**
