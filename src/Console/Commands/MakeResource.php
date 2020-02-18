@@ -418,11 +418,11 @@ class MakeResource extends Command
      */
     private function createModelIfNotExisting($namespace, $model, $resource, $index = 0, $forceMigration = true)
     {
-        $modelBasePath = trim(config('json-schema.models.path'), '/') . '/';
-        if (!File::isDirectory(base_path($modelBasePath . $this->dir($namespace)))) {
-            File::makeDirectory(base_path($modelBasePath . $this->dir($namespace)), 0755, true);
+        $modelBasePath = config('json-schema.models.path') . '/';
+        if (!File::isDirectory($modelBasePath . $this->dir($namespace))) {
+            File::makeDirectory($modelBasePath . $this->dir($namespace), 0755, true);
         }
-        $modelPath = base_path($modelBasePath . $this->dir($namespace) . $model) . '.php';
+        $modelPath = $modelBasePath . $this->dir($namespace) . $model . '.php';
 
         if (!File::exists($modelPath)) {
             $this->createMigrationIfNotExisting($namespace, $model, $resource, $index);
