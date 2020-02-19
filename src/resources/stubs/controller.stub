@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\{{NamespaceSingle}}Create{{ModelClass}}Request;
 use App\Http\Requests\{{NamespaceSingle}}Update{{ModelClass}}Request;
-use App\Http\Controllers\Api\Controller;
-use Simianbv\JsonSchema\SearchResult;
-use Simianbv\JsonSchema\ApiCollection;
-use Simianbv\JsonSchema\ApiResource;
+use App\Http\Controllers\Controller;
+use Simianbv\Search\SearchResult;
+use Simianbv\Search\ApiCollection;
+use Simianbv\Search\ApiResource;
 use Simianbv\JsonSchema\Contracts\IsLockable;
 use Exception;
 {{Uses}}

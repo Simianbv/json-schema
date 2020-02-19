@@ -555,7 +555,7 @@ class Resource extends Base
                 $appendix = "'autocomplete' => ['url' => '$apiUrl']";
             }
         } catch (Exception $e) {
-            $this->warn("Unable to determine the field type for relation model " . $relationModel);
+            $this->parent->warn("Unable to determine the field type for relation model " . $relationModel);
         }
 
         $type = isset($relationAttributes['type']) && $relationAttributes['type'] == 'hasMany' ? 'tags' : 'select';
