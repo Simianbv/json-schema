@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Simianbv\JsonSchema\Contracts\LayoutInterface;
 use Simianbv\JsonSchema\Contracts\ResourceInterface;
 use Simianbv\JsonSchema\Resource;
-use Simianbv\JsonSchema\Facades\VerticalLayout;
+use Simianbv\JsonSchema\Ui\Facades\VerticalLayout;
 {{Uses}}
 
 /**

@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
 class {{Model}} extends Model {{Implements}}
 {
     {{Traits}}
-
     /**
      * The name of the table to use.
      * @var string
@@ -24,7 +23,6 @@ class {{Model}} extends Model {{Implements}}
     protected $table = '{{ModelTable}}';
 
     {{SoftDelete}}
-
 
     /**
      * @var array

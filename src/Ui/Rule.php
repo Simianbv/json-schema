@@ -5,7 +5,7 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Ui;
+namespace Simianbv\JsonSchema\Ui;
 
 use Simianbv\JsonSchema\Contracts\ConditionInterface;
 use Simianbv\JsonSchema\Contracts\RuleEffectInterface;

@@ -4,20 +4,19 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Ui;
+namespace Simianbv\JsonSchema\Ui;
 
-use Simianbv\JsonSchema\Fields\Layout;
+use Simianbv\JsonSchema\Ui\Layout;
 
 /**
  * @method make(array $fields = [], string $name = null)
- * @class   InlineLayout
+ * @class   HorizontalLayout
  * @package Simianbv\JsonSchema\Fields\Ui
  */
-class InlineLayout extends Layout
+class HorizontalLayout extends Layout
 {
-    public function initialize(): void
+    function initialize(): void
     {
         $this->horizontal();
-        $this->inline();
     }
 }

@@ -4,9 +4,7 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Ui;
-
-use Simianbv\JsonSchema\Fields\Layout;
+namespace Simianbv\JsonSchema\Ui;
 
 /**
  * @method make(array $fields = [], string $name = null)
