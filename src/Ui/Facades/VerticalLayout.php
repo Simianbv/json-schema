@@ -5,13 +5,13 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Facades;
+namespace Simianbv\JsonSchema\Ui\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Simianbv\JsonSchema\Fields\Ui\VerticalLayout as VerticalLayoutLayout;
+use Simianbv\JsonSchema\Ui\VerticalLayout as VerticalLayoutLayout;
 
 /**
- * @see \Simianbv\JsonSchema\Fields\Ui\VerticalLayout
+ * @see \Simianbv\JsonSchema\Ui\VerticalLayout
  */
 class VerticalLayout extends Facade
 {

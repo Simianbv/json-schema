@@ -5,13 +5,13 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Facades;
+namespace Simianbv\JsonSchema\Ui\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Simianbv\JsonSchema\Fields\Ui\TabsLayout as TabsLayoutLayout;
+use Simianbv\JsonSchema\Ui\TabsLayout as TabsLayoutLayout;
 
 /**
- * @see \Simianbv\JsonSchema\Fields\Ui\TabsLayout
+ * @see \Simianbv\JsonSchema\Ui\TabsLayout
  */
 class TabsLayout extends Facade
 {

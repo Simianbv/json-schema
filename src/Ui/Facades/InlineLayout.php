@@ -5,15 +5,15 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Facades;
+namespace Simianbv\JsonSchema\Ui\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Simianbv\JsonSchema\Fields\Ui\InlineLayout as InlineLayoutLayout;
+use Simianbv\JsonSchema\Ui\InlineLayout as InlineLayoutLayout;
 
 /**
  * @method static make(array $fields = [], string $name = null)
  *
- * @see \Simianbv\JsonSchema\Fields\Ui\InlineLayout
+ * @see \Simianbv\JsonSchema\Ui\\InlineLayout
  */
 class InlineLayout extends Facade
 {

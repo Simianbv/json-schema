@@ -5,13 +5,13 @@
  * @version       1.0.0
  */
 
-namespace Simianbv\JsonSchema\Fields\Facades;
+namespace Simianbv\JsonSchema\Ui\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Simianbv\JsonSchema\Fields\Ui\HorizontalLayout as HorizontalLayoutLayout;
+use Simianbv\JsonSchema\Ui\HorizontalLayout as HorizontalLayoutLayout;
 
 /**
- * @see \Simianbv\JsonSchema\Fields\Ui\HorizontalLayout
+ * @see \Simianbv\JsonSchema\Ui\HorizontalLayout
  */
 class HorizontalLayout extends Facade
 {
