@@ -273,11 +273,11 @@ class Resource extends Base
                 $componentField .= '->min(' . $attr['minLength'] . ')';
             }
             if (
-                    (
-                        (isset($attr['required']) && $attr['required'] == true) ||
-                        (isset($attr['nullable']) && $attr['nullable'] == false)
-                    )
-                    && $componentType !== 'ID'
+                (
+                    (isset($attr['required']) && $attr['required'] == true) ||
+                    (isset($attr['nullable']) && $attr['nullable'] == false)
+                )
+                && $componentType !== 'ID'
             ) {
                 $componentField .= '->required()';
             }
@@ -543,9 +543,13 @@ class Resource extends Base
             $fullRelationModel = $this->getModelNamespace() . $this->ns($relationAttributes['namespace'] ?? null) . $relationModel;
 
             $count = 0;
-            if (class_exists($fullRelationModel)) {
-                $count = $fullRelationModel::count();
+            try {
+                if (class_exists($fullRelationModel)) {
+                    $count = $fullRelationModel::count();
+                }
+            } catch (Exception $e) {
             }
+
 
             if ($count > 30) {
                 $apiVersion = env('API_VERSION') ?? 'v1';
