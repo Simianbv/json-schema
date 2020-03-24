@@ -42,8 +42,10 @@ class {{ResourceClass}} extends Resource implements ResourceInterface
      * @param Request $request
      * @return array
      */
-    public function filters(Request $request): array
+    public function filters(Request $request): LayoutInterface
     {
+        return VerticalLayout::make([]);
+
         return [
             {{Filters}}
         ];

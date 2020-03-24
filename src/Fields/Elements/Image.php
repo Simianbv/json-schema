@@ -26,6 +26,26 @@ class Image extends Field
     }
 
     /**
+     * @param int $dimension
+     *
+     * @return Field
+     */
+    public function dimension(int $dimension)
+    {
+        return $this->attributes(['dimension' => $dimension]);
+    }
+
+    /**
+     * @param string $slug
+     *
+     * @return Field
+     */
+    public function slug(string $slug)
+    {
+        return $this->attributes(['slug' => $slug]);
+    }
+
+    /**
      * Get the name of the Field object.
      * @return string
      */

@@ -109,7 +109,7 @@ abstract class DateTimeBase extends Field
      */
     protected function getFieldType(): string
     {
-        return 'number';
+        return 'string';
     }
 
     /**

@@ -22,6 +22,7 @@ class JsonSchemaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 
     /**
@@ -31,8 +32,6 @@ class JsonSchemaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-
         $this->publishes([__DIR__ . '/../config/json-schema.php' => config_path('json-schema.php'),], "json-schema");
         $this->publishes(
             [
@@ -44,6 +43,7 @@ class JsonSchemaServiceProvider extends ServiceProvider
                 __DIR__ . '/../resources/stubs/controller-has-one.stub' => resource_path('stubs/controller-has-one.stub'),
                 __DIR__ . '/../resources/stubs/migration.stub' => resource_path('stubs/migration.stub'),
                 __DIR__ . '/../resources/stubs/resource.stub' => resource_path('stubs/resource.stub'),
+                __DIR__ . '/../resources/stubs/form.stub' => resource_path('stubs/form.stub'),
                 __DIR__ . '/../resources/stubs/overview.stub' => resource_path('stubs/overview.stub'),
                 __DIR__ . '/../resources/stubs/overview-column.stub' => resource_path('stubs/overview-column.stub'),
                 __DIR__ . '/../resources/stubs/overview-detail.stub' => resource_path('stubs/overview-detail.stub'),

@@ -40,6 +40,14 @@ class Date extends DateTimeBase
     /**
      * @return string
      */
+    protected function getFieldType(): string
+    {
+        return 'string';
+    }
+
+    /**
+     * @return string
+     */
     protected function getComponentType(): string
     {
         return 'Date';

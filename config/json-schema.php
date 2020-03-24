@@ -37,6 +37,9 @@ return [
     'overview' => [
         'location' => resource_path('views/generated')
     ],
+    'forms' => [
+        'location' => resource_path('views/generated')
+    ],
 
     /*
      * Expose all the stub files to be used
@@ -50,9 +53,10 @@ return [
         'controller-has-one'    => resource_path('stubs/controller-as-one.stub'),
         'migration'             => resource_path('stubs/migration.stub'),
         'resource'              => resource_path('stubs/resource.stub'),
+        'form'                  => resource_path('stubs/form.stub'),
         'overview'              => resource_path('stubs/overview.stub'),
         'overview-column'       => resource_path('stubs/overview-column.stub'),
-        'overview-detail'       => resource_path('stubs/overview-detail.stub')
+        'overview-detail'       => resource_path('stubs/overview-detail.stub'),
     ],
 
     /*

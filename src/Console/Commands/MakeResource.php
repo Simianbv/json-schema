@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Simianbv\JsonSchema\Console\Generators\Controller;
+use Simianbv\JsonSchema\Console\Generators\Form;
 use Simianbv\JsonSchema\Console\Generators\Migration;
 use Simianbv\JsonSchema\Console\Generators\Model;
 use Simianbv\JsonSchema\Console\Generators\Overview;
@@ -39,7 +40,11 @@ class MakeResource extends Command
      *
      * @var string
      */
-    protected $signature = 'make:json-schema {name}';
+    protected $signature = 'make:json-schema {name} {--override}';
+    /**
+     * @var Form
+     */
+    protected $formGenerator;
 
     /**
      * @var string
@@ -113,13 +118,15 @@ class MakeResource extends Command
      * @param Migration  $migrationGenerator
      * @param Resource   $resourceGenerator
      * @param Overview   $overviewGenerator
+     * @param Form       $formGenerator
      */
     public function __construct(
         Model $modelGenerator,
         Controller $controllerGenerator,
         Migration $migrationGenerator,
         Resource $resourceGenerator,
-        Overview $overviewGenerator
+        Overview $overviewGenerator,
+        Form $formGenerator
     ) {
         parent::__construct();
         $this->modelGenerator = $modelGenerator;
@@ -127,12 +134,14 @@ class MakeResource extends Command
         $this->migrationGenerator = $migrationGenerator;
         $this->resourceGenerator = $resourceGenerator;
         $this->overviewGenerator = $overviewGenerator;
+        $this->formGenerator = $formGenerator;
         // notify the generators who's calling them
         $this->modelGenerator->setCallee($this);
         $this->controllerGenerator->setCallee($this);
         $this->migrationGenerator->setCallee($this);
         $this->resourceGenerator->setCallee($this);
         $this->overviewGenerator->setCallee($this);
+        $this->formGenerator->setCallee($this);
     }
 
     /**
@@ -150,7 +159,7 @@ class MakeResource extends Command
             }
         }
 
-        if(!File::isDirectory(config('json-schema.overview.location'))){
+        if (!File::isDirectory(config('json-schema.overview.location'))) {
             $this->line("<fg=magenta>creating directory: " . config('json-schema.overview.location') . "</>\n");
             File::makeDirectory(config('json-schema.overview.location'), 0755, true);
         }
@@ -302,6 +311,7 @@ class MakeResource extends Command
             $this->createControllerIfNotExisting($namespace, $model, $resource);
             $this->createResourceIfNotExisting($namespace, $model, $resource);
             $this->createOverview($namespace, $model, $resource);
+            $this->createForm($namespace, $model, $resource);
         }
     }
 
@@ -346,6 +356,29 @@ class MakeResource extends Command
     }
 
     /**
+     * Create the Overview for the given resource.
+     *
+     * @param $namespace
+     * @param $model
+     * @param $resource
+     *
+     * @return void
+     */
+    private function createForm($namespace, $model, $resource)
+    {
+        $formFile = ucfirst(Str::slug(Str::snake(Str::singular($model))) . "-form.vue");
+
+        $formPath = base_path('resources/views/generated/' . $formFile);
+
+        $this->info(str_pad("Creating Form:", self::$PAD_LENGTH) . $formPath);
+        $content = $this->formGenerator->create($resource, $namespace, $model);
+
+        file_put_contents($formPath, $content);
+
+        $this->files_generated[] = $formPath;
+    }
+
+    /**
      * Create the resource if the file does not exist yet.
      *
      * @param $namespace
@@ -365,12 +398,12 @@ class MakeResource extends Command
             File::makeDirectory($resourceDir, 0755, true);
         }
 
-        //        if (!File::exists($resourcePath)) {
-        $this->info(str_pad("Creating Resource:", self::$PAD_LENGTH) . $resourcePath);
-        $resourceContent = $this->resourceGenerator->create($resource, $namespace, $model);
-        file_put_contents($resourcePath, $resourceContent);
-        $this->files_generated[] = $resourcePath;
-        //        }
+        if (!File::exists($resourcePath) || $this->option('override')) {
+            $this->info(str_pad("Creating Resource:", self::$PAD_LENGTH) . $resourcePath);
+            $resourceContent = $this->resourceGenerator->create($resource, $namespace, $model);
+            file_put_contents($resourcePath, $resourceContent);
+            $this->files_generated[] = $resourcePath;
+        }
     }
 
     /**

@@ -80,7 +80,7 @@ abstract class Field implements FieldInterface
     /**
      * @var bool
      */
-    protected $visibility_add = true;
+    protected $visibility_create = true;
     /**
      * @var bool
      */
@@ -405,6 +405,34 @@ abstract class Field implements FieldInterface
      *
      * @return Field
      */
+    public function hidden(): Field
+    {
+        $this->visibility_browse = false;
+        $this->visibility_read = false;
+        $this->visibility_edit = false;
+        $this->visibility_create = false;
+        return $this;
+    }
+
+    /**
+     * Whether this field should be hidden on the index route.
+     *
+     * @return Field
+     */
+    public function show(): Field
+    {
+        $this->visibility_browse = true;
+        $this->visibility_read = true;
+        $this->visibility_edit = true;
+        $this->visibility_create = true;
+        return $this;
+    }
+
+    /**
+     * Whether this field should be hidden on the index route.
+     *
+     * @return Field
+     */
     public function hideFromIndex(): Field
     {
         $this->visibility_browse = false;
@@ -429,7 +457,7 @@ abstract class Field implements FieldInterface
      */
     public function hideWhenCreating(): Field
     {
-        $this->visibility_add = false;
+        $this->visibility_create = false;
         return $this;
     }
 
@@ -454,7 +482,7 @@ abstract class Field implements FieldInterface
         $this->visibility_browse = true;
         $this->visibility_read = false;
         $this->visibility_edit = false;
-        $this->visibility_add = false;
+        $this->visibility_create = false;
         return $this;
     }
 
@@ -468,7 +496,7 @@ abstract class Field implements FieldInterface
         $this->visibility_browse = false;
         $this->visibility_read = true;
         $this->visibility_edit = false;
-        $this->visibility_add = false;
+        $this->visibility_create = false;
         return $this;
     }
 
@@ -482,7 +510,7 @@ abstract class Field implements FieldInterface
         $this->visibility_browse = false;
         $this->visibility_read = false;
         $this->visibility_edit = true;
-        $this->visibility_add = true;
+        $this->visibility_create = true;
         return $this;
     }
 
@@ -496,12 +524,12 @@ abstract class Field implements FieldInterface
         $this->visibility_browse = true;
         $this->visibility_read = true;
         $this->visibility_edit = false;
-        $this->visibility_add = false;
+        $this->visibility_create = false;
         return $this;
     }
 
     /**
-     * Define your own visibility, requires an array containing the following view states: browse, read, add, edit
+     * Define your own visibility, requires an array containing the following view states: browse, read, create, edit
      *
      * @param array $visibility
      *
@@ -511,7 +539,7 @@ abstract class Field implements FieldInterface
      *          'browse' => true,
      *          'read' => false,
      *          'edit' => true,
-     *          'add' => true
+     *          'create' => true
      *      ]);
      */
     public function setVisibility(array $visibility): Field
@@ -525,8 +553,8 @@ abstract class Field implements FieldInterface
         if (isset($visibility['edit'])) {
             $this->visibility_edit = $visibility['edit'];
         }
-        if (isset($visibility['add'])) {
-            $this->visibility_add = $visibility['add'];
+        if (isset($visibility['create'])) {
+            $this->visibility_create = $visibility['create'];
         }
 
         return $this;
@@ -543,7 +571,7 @@ abstract class Field implements FieldInterface
             'browse' => $this->visibility_browse,
             'read' => $this->visibility_read,
             'edit' => $this->visibility_edit,
-            'add' => $this->visibility_add,
+            'create' => $this->visibility_create,
         ];
     }
 
@@ -853,7 +881,7 @@ abstract class Field implements FieldInterface
                 'browse' => $this->visibility_browse,
                 'read' => $this->visibility_read,
                 'edit' => $this->visibility_edit,
-                'add' => $this->visibility_add,
+                'create' => $this->visibility_create,
             ];
 
             if (!empty($this->base_classes)) {
