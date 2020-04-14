@@ -47,7 +47,7 @@ class FilterController extends ResourceController
      * @return array|ResponseFactory|Response
      * @throws Exception
      */
-    public function getFilterByModel($model)
+    public function getFiltersByModel($model)
     {
         try {
             if (!$model) {
