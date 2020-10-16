@@ -36,6 +36,10 @@ abstract class Relation implements RelationInterface
     protected $type = null;
 
     /**
+     * @var array
+     */
+    protected $input_arguments = [];
+    /**
      * @var string
      */
     protected $model = null;
@@ -96,13 +100,11 @@ abstract class Relation implements RelationInterface
      *
      * @param string|null $model
      */
-    public function __construct(string $model)
+    public function __construct (string $model)
     {
         self::setModelNamespace(config('json-schema.models.namespace'));
 
         $this->model($model);
-
-
     }
 
     /**
@@ -110,29 +112,29 @@ abstract class Relation implements RelationInterface
      *
      * @return string
      */
-    abstract public function getRelationType(): string;
+    abstract public function getRelationType (): string;
 
     /**
      * Returns the type of relation the model has.
      *
      * @return string
      */
-    abstract public function getRelation(): string;
+    abstract public function getRelation (): string;
 
     /**
      * Returns this relation as an array.
      *
      * @return array
      */
-    public function toArray(): array
+    public function toArray (): array
     {
         return [
-            'related_by' => $this->getRelation(),
-            'relation' => $this->getRelationType(),
-            'endpoint' => $this->getEndpoint(),
+            'related_by'  => $this->getRelation(),
+            'relation'    => $this->getRelationType(),
+            'endpoint'    => $this->getEndpoint(),
             'primary_key' => $this->getPrimaryKey(),
-            'columns' => $this->getColumns(),
-            'label' => $this->getLabel(),
+            'columns'     => $this->getColumns(),
+            'label'       => $this->getLabel(),
         ];
     }
 
@@ -143,7 +145,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function label(string $label): RelationInterface
+    public function label (string $label): RelationInterface
     {
         $this->label = $label;
         return $this;
@@ -156,7 +158,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function baseUrl(string $base_url): RelationInterface
+    public function baseUrl (string $base_url): RelationInterface
     {
         $this->base_url = $base_url;
         return $this;
@@ -169,7 +171,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function model(string $model): RelationInterface
+    public function model (string $model): RelationInterface
     {
         $this->model = $model;
         return $this;
@@ -182,7 +184,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function endpoint(string $endpoint): RelationInterface
+    public function endpoint (string $endpoint): RelationInterface
     {
         $this->endpoint = $endpoint;
         return $this;
@@ -195,7 +197,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function columns($columns): RelationInterface
+    public function columns ($columns): RelationInterface
     {
         if (is_array($columns)) {
             $this->related_columns = $columns;
@@ -215,7 +217,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function addColumns($columns): RelationInterface
+    public function addColumns ($columns): RelationInterface
     {
         if (is_array($columns)) {
             foreach ($columns as $column) {
@@ -232,7 +234,7 @@ abstract class Relation implements RelationInterface
      *
      * @return array
      */
-    public function getColumns(): array
+    public function getColumns (): array
     {
         return $this->related_columns;
     }
@@ -242,9 +244,19 @@ abstract class Relation implements RelationInterface
      *
      * @return string
      */
-    public function getPrimaryKey(): string
+    public function getPrimaryKey (): string
     {
         return $this->primary_key;
+    }
+
+    /**
+     * @param array $args
+     * @return $this
+     */
+    public function setRequestArguments (array $args = []): self
+    {
+        $this->input_arguments = $args;
+        return $this;
     }
 
     /**
@@ -252,7 +264,7 @@ abstract class Relation implements RelationInterface
      *
      * @return string
      */
-    public function getLabel(): string
+    public function getLabel (): string
     {
         return $this->label ?? "id";
     }
@@ -261,7 +273,7 @@ abstract class Relation implements RelationInterface
      * Returns the base url for the related model's endpoint.
      * @return string
      */
-    public function getBaseUrl(): string
+    public function getBaseUrl (): string
     {
         if (!$this->base_url && !self::$base_url_static) {
             $this->base_url = config('json-schema.base_url');
@@ -278,12 +290,12 @@ abstract class Relation implements RelationInterface
      *
      * @return string
      */
-    public function getModel(): string
+    public function getModel (): string
     {
         if ($this->model) {
             return $this->model;
         }
-        return null;
+        return "";
     }
 
     /**
@@ -291,7 +303,7 @@ abstract class Relation implements RelationInterface
      * the relation Acl/Role would return an endpoint like: http(s)://<domain>/api/acl/roles
      * @return string
      */
-    public function getEndpoint(): string
+    public function getEndpoint (): string
     {
         if ($this->endpoint) {
             return $this->endpoint;
@@ -314,7 +326,13 @@ abstract class Relation implements RelationInterface
             }
 
             $plural = Str::slug(Str::snake(Str::plural($plural)));
-            $endpoint = $this->getBaseUrl() . "/" . ($ns ? $ns . "/" : "") . $plural . "/";
+            $endpoint = $this->getBaseUrl() . "/" . $plural . "/";
+
+            if ($this->input_arguments) {
+                $q = http_build_query($this->input_arguments);
+                $endpoint .= '?' . $q;
+            }
+
             $this->endpoint = $endpoint;
         }
 
@@ -328,7 +346,7 @@ abstract class Relation implements RelationInterface
      *
      * @return RelationInterface
      */
-    public function setBaseUrl(string $baseUrl): RelationInterface
+    public function setBaseUrl (string $baseUrl): RelationInterface
     {
         self::$base_url_static = $baseUrl;
         return $this;
@@ -342,7 +360,7 @@ abstract class Relation implements RelationInterface
      * @static
      * @return void
      */
-    public static function setModelNamespace(string $namespace): void
+    public static function setModelNamespace (string $namespace): void
     {
         self::$model_namespace = $namespace;
     }
@@ -352,7 +370,7 @@ abstract class Relation implements RelationInterface
      *
      * @return string
      */
-    public static function getModelNamespace(): string
+    public static function getModelNamespace (): string
     {
         return self::$model_namespace;
     }

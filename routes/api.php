@@ -2,16 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['api', 'introspect']], function () {
+$prefix = '/' . rtrim(trim(config('json-schema.prefix'), '/'), '/');
 
-    Route::get('/api/schema/properties/{scope}/{resource?}', '\Simianbv\JsonSchema\Http\SchemaController@getProperties');
-    Route::get('/api/schema/layout/{scope}/{resource?}', '\Simianbv\JsonSchema\Http\SchemaController@getLayout');
-    Route::get('/api/schema/filters/{scope}/{resource?}', '\Simianbv\JsonSchema\Http\FilterController@index');
+if ($prefix == '/' || $prefix == '//') {
+    $prefix = '';
+}
 
-    Route::get('/api/filters/{model}',  '\Simianbv\JsonSchema\Http\FilterController@getFiltersByModel');
-    Route::get('/api/filters',          '\Simianbv\JsonSchema\Http\FilterController@getFiltersByModel');
+Route::group(['middleware' => ['api', 'introspect']], function () use ($prefix) {
+    Route::get($prefix . '/schema/properties/{scope}/{resource?}', '\Simianbv\JsonSchema\Http\SchemaController@getProperties');
+    Route::get($prefix . '/schema/layout/{scope}/{resource?}', '\Simianbv\JsonSchema\Http\SchemaController@getLayout');
+    Route::get($prefix . '/schema/filters/{scope}/{resource?}', '\Simianbv\JsonSchema\Http\FilterController@index');
 
-
+    Route::get($prefix . '/schema/filters/{model}', '\Simianbv\JsonSchema\Http\FilterController@getFiltersByModel');
+    Route::get($prefix . '/schema/filters', '\Simianbv\JsonSchema\Http\FilterController@getFiltersByModel');
 });
 
 

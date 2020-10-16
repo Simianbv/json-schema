@@ -38,7 +38,7 @@ trait HasRelations
      *
      * @return Field|HasRelations
      */
-    public function hasOne(string $model): self
+    public function hasOne (string $model): self
     {
         $this->relation = new HasOne($model);
         $this->has_relation = true;
@@ -50,7 +50,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function hasMany(string $model): self
+    public function hasMany (string $model): self
     {
         $this->relation = new HasMany($model);
         $this->has_relation = true;
@@ -62,7 +62,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function belongsTo(string $model): self
+    public function belongsTo (string $model): self
     {
         $this->relation = new BelongsTo($model);
         $this->has_relation = true;
@@ -74,7 +74,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function belongsToMany(string $model): self
+    public function belongsToMany (string $model): self
     {
         $this->relation = new BelongsToMany($model);
         $this->has_relation = true;
@@ -86,7 +86,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function label(string $label): self
+    public function label (string $label): self
     {
         if ($this->hasRelation()) {
             $this->relation->label($label);
@@ -101,7 +101,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function columns($columns): self
+    public function columns ($columns): self
     {
         if ($this->hasRelation()) {
             $this->relation->columns($columns);
@@ -114,7 +114,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function baseUrl(string $base_url): self
+    public function baseUrl (string $base_url): self
     {
         if ($this->hasRelation()) {
             $this->relation->baseUrl($base_url);
@@ -127,7 +127,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function model(string $model): self
+    public function model (string $model): self
     {
         if ($this->hasRelation()) {
             $this->relation->model($model);
@@ -140,11 +140,21 @@ trait HasRelations
      *
      * @return $this
      */
-    public function endpoint(string $endpoint): self
+    public function endpoint (string $endpoint): self
     {
         if ($this->hasRelation()) {
             $this->relation->endpoint($endpoint);
         }
+        return $this;
+    }
+
+    /**
+     * @param array $args
+     * @return $this
+     */
+    public function requestArguments (array $args = []): self
+    {
+        $this->relation->setRequestArguments($args);
         return $this;
     }
 
@@ -155,7 +165,7 @@ trait HasRelations
      *
      * @return $this
      */
-    public function addColumns($columns): self
+    public function addColumns ($columns): self
     {
         if ($this->hasRelation()) {
             $this->relation->addColumns($columns);
@@ -168,7 +178,7 @@ trait HasRelations
      *
      * @return array
      */
-    public function relationToArray(): array
+    public function relationToArray (): array
     {
         if ($this->hasRelation()) {
             return $this->relation->toArray();
@@ -182,7 +192,7 @@ trait HasRelations
      *
      * @return bool
      */
-    public function hasRelation(): bool
+    public function hasRelation (): bool
     {
         return $this->has_relation === true || $this->relation !== null;
     }
