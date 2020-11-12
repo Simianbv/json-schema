@@ -18,7 +18,8 @@
     "laravel/framework": "6.*|7.*",
     "symfony/yaml": "^5.0|^4.2",
     "ext-json": "*",
-    "nyholm/psr7": "^1.2"
+    "nyholm/psr7": "^1.2",
+    "simianbv/introspect": "^2.1"
   },
   "autoload": {
     "psr-4": {
