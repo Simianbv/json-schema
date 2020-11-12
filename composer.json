@@ -37,48 +37,4 @@
 
 
 
-### Rol verdelingen
-
-#### Jurjen
-
-Productie eerste aanspreekpunt
-Proces verbeteringen voor machinepark
-Aanknopingspunt voor engineers
-Verantwoordelijk voor KERN en Landa ( en meer zodra je genoeg ervaring hebt)
-Production-api wordt jou hoofdproject
-Blijft developer voor de production-gerelateerde api's (kern, shipping, production, packaging)
-
-#### Joey
-
-Front-end development van admin
-Front-end development van de nieuwe sites
-Aanpassingen websites
-Verantwoordelijk voor admin
-Stukje UX en UI
-
-
-#### Merijn
-Development van alle microservices
-Verantwoordelijk voor idp, admin, hr, warehouse, orders, support, shipping, packaging etc
-
-#### Daniel
-Development van lopende beheer
-Development van production-api
-Development van api's
-Verantwoordelijk voor strategie
-
-
-### Planning
-
-#### een eerste volgorde
-
-idp -> eind november: acceptatie
-hr -> eind november: acceptatie
-admin -> eind november: acceptatie
-productie -> eind november: test
-warehouse -> eind november: test
-PoC -> plan mid november
-PoC -> begin december beter beeld
-shipping -> eind november: prod
-kern -> eind november: prod
 
