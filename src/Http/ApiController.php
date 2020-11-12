@@ -18,23 +18,4 @@ use Illuminate\Routing\Controller;
 class ApiController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    protected $acl_verification = false;
-
-    /**
-     * @return bool
-     */
-    public function requiresAclVerification ()
-    {
-        return $this->acl_verification === true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isExcludedFromAclVerification ()
-    {
-        return $this->acl_verification === false;
-    }
-
 }
