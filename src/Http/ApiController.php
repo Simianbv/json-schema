@@ -10,7 +10,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
-use Simianbv\Introspect\Traits\UsesAclVerification;
 
 /**
  * @class   ApiController
@@ -18,7 +17,24 @@ use Simianbv\Introspect\Traits\UsesAclVerification;
  */
 class ApiController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, UsesAclVerification;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $acl_verification = false;
+
+    /**
+     * @return bool
+     */
+    public function requiresAclVerification ()
+    {
+        return $this->acl_verification === true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExcludedFromAclVerification ()
+    {
+        return $this->acl_verification === false;
+    }
+
 }
