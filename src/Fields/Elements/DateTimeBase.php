@@ -46,6 +46,17 @@ abstract class DateTimeBase extends Field
     }
 
     /**
+     * Only allow monday through friday to be selectable
+     * @return $this
+     */
+    public function workdaysOnly ()
+    {
+        $this->unselectableDaysOfWeek([0, 6]);
+        return $this;
+    }
+
+
+    /**
      * Returns true if the implementing Field has a TIME component.
      *
      * @return bool
