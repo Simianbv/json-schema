@@ -103,6 +103,7 @@ trait DateAttributes
     {
         self::$default_format = $format;
         $this->format = $format;
+        $this->attributes(['format' => $this->format]);
         return $this;
     }
 
